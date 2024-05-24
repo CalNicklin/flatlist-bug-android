@@ -9,7 +9,7 @@ import React from 'react';
 import type {PropsWithChildren} from 'react';
 import {
   SafeAreaView,
-  ScrollView,
+  FlatList,
   StatusBar,
   StyleSheet,
   Text,
@@ -62,36 +62,54 @@ function App(): React.JSX.Element {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
+  const itemColors = {
+    1: 'red',
+    2: 'green',
+    3: 'blue',
+  };
+
   return (
     <SafeAreaView style={backgroundStyle}>
       <StatusBar
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
+      <View style={{justifyContent: 'center', alignItems: 'center'}}>
+        <FlatList
           style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
+            width: 150,
+            height: 100,
+            backgroundColor: 'gray',
+            borderBottomLeftRadius: 95,
+            borderBottomRightRadius: 100,
+            borderTopLeftRadius: 180,
+            borderTopRightRadius: 165,
+          }}
+          data={['1', '2', '3']}
+          contentContainerStyle={{
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+          renderItem={({item, index}) => {
+            return (
+              <View
+                key={index}
+                style={{
+                  width: 150,
+                  height: 50,
+                  backgroundColor: itemColors[item],
+                }}>
+                <Text style={{textAlign: 'center'}}>{item}</Text>
+              </View>
+            );
+          }}
+          numColumns={1}
+          horizontal={true}
+          pagingEnabled={true}
+          decelerationRate={'fast'}
+          showsHorizontalScrollIndicator={false}
+        />
+      </View>
     </SafeAreaView>
   );
 }
